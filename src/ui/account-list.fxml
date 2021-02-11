@@ -36,7 +36,7 @@
          <children>
             <HBox alignment="TOP_RIGHT" prefHeight="70.0" prefWidth="600.0">
                <children>
-                  <Label fx:id="labUsername" text="Label">
+                  <Label fx:id="labUsername">
                      <HBox.margin>
                         <Insets right="20.0" top="20.0" />
                      </HBox.margin>
@@ -44,7 +44,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="labIconProfile" layoutX="432.0" layoutY="30.0" text="Label">
+                  <Label fx:id="labIconProfile" layoutX="432.0" layoutY="30.0">
                      <font>
                         <Font size="16.0" />
                      </font>

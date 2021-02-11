@@ -2,8 +2,14 @@ package ui;
 
 import java.io.IOException;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -14,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import model.Career;
 import model.Classroom;
@@ -97,16 +104,66 @@ public class ClassroomGUI {
     public ClassroomGUI(Classroom cr) {
 		classroom = cr;
 	}
+    
+    public void loadLoginForm() throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+		fxmlLoader.setController(this);
+		Parent loginPane = fxmlLoader.load();
+		mainPanel.getChildren().clear();
+		mainPanel.setTop(loginPane);
+    }
 
     @FXML
     public void loadUserAccountList(ActionEvent event) throws IOException {
-
+    	if(!txtName.getText().equals("") && !txtPassword.getText().equals("")) {
+    		String strUsername =  txtName.getText();
+        	String strPassword =  txtPassword.getText();
+    		boolean find = classroom.findUserAccount(strUsername, strPassword);
+    		txtName.setText("");
+    		txtPassword.setText("");
+        	if(find==true) {
+        		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("account-list.fxml"));
+            	fxmlLoader.setController(this);
+            	Parent userListPane = fxmlLoader.load();
+            	mainPanel.getChildren().clear();
+            	mainPanel.setCenter(userListPane);
+            	initializeTableView();
+            	labUsername.setText(strUsername);
+        	}else {
+        		Alert alert = new Alert(AlertType.ERROR);
+        		alert.setTitle("Log in incorrect");
+        		alert.setHeaderText(null);
+        		alert.setContentText("The username and password given are incorrect");
+        		alert.showAndWait();
+        	}
+    	}else {
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("Validation Error");
+    		alert.setHeaderText(null);
+    		alert.setContentText("You must fill each field in the form");
+    		alert.showAndWait();
+    	}
     }
 
-    @FXML
-    public void registerNewUser(ActionEvent event) throws IOException {
+    private void initializeTableView() {
+    	ObservableList<UserAccount> observableList;
+    	observableList = FXCollections.observableArrayList(classroom.getAccounts());
+    	tvUserAccountList.setItems(observableList);
+    	tcUserName.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("Username")); 
+		tcGender.setCellValueFactory(new PropertyValueFactory<UserAccount,Gender>("Gender")); 
+		tcCareer.setCellValueFactory(new PropertyValueFactory<UserAccount,Career>("Career"));
+		tcBirthday.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("Birthday"));
+		tcBrowser.setCellValueFactory(new PropertyValueFactory<UserAccount,FavoriteBrowser>("Browser")); 
+	}
 
-    }
+	@FXML
+    public void loadRegistrationForm(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
+		fxmlLoader.setController(this);
+		Parent registerPane = fxmlLoader.load();
+		mainPanel.getChildren().clear();
+		mainPanel.setTop(registerPane);
+	}
 
     @FXML
     public void chooseProfilePhoto(ActionEvent event) throws IOException {
@@ -119,12 +176,21 @@ public class ClassroomGUI {
     }
 
     @FXML
-    public void signIn2ButtonAction(ActionEvent event) throws IOException {
-
+    public void signInButtonAction(ActionEvent event) throws IOException {
+    	loadLoginForm();
     }
     
     @FXML
     public void logOutButtonAction(ActionEvent event) throws IOException {
 
+    }
+    
+    @FXML
+    public void showAbout(ActionEvent event) {
+    	Alert alert = new Alert(AlertType.INFORMATION);
+	    alert.setTitle("Classroom");
+	    alert.setHeaderText("Credits");
+	    alert.setContentText("Keren López\nAlgorithms II");
+	    alert.showAndWait();
     }
 }
