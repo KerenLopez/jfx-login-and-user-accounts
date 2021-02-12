@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import model.Career;
 import model.Classroom;
 import model.FavoriteBrowser;
@@ -132,7 +134,7 @@ public class ClassroomGUI {
             	labUsername.setText(strUsername);
         	}else {
         		Alert alert = new Alert(AlertType.ERROR);
-        		alert.setTitle("Log in incorrect");
+        		alert.setTitle("Login incorrect");
         		alert.setHeaderText(null);
         		alert.setContentText("The username and password given are incorrect");
         		alert.showAndWait();
@@ -168,7 +170,19 @@ public class ClassroomGUI {
 
     @FXML
     public void chooseProfilePhoto(ActionEvent event) throws IOException {
-
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.setTitle("Select a photo profile");
+    	fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+    	File file = fileChooser.showOpenDialog(null);
+    	if(file!=null) {
+    		txtUrlPhoto.appendText(file.getAbsolutePath());
+    	}else {
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("Validation Error");
+    		alert.setHeaderText(null);
+    		alert.setContentText("You must selected a photo for your profile");
+    		alert.showAndWait(); 
+    	}
     }
 
     @FXML
@@ -189,6 +203,17 @@ public class ClassroomGUI {
     		String strNewUserPassword = txtNewUserPassword.getText();
         	String strUrlPhoto = txtUrlPhoto.getText();
         	classroom.addNewUserAccount(strNewUsername, strNewUserPassword, strUrlPhoto, strGender, careers, strBirthday, strBrowser);
+        	txtNewUsername.setText("");
+        	txtNewUserPassword.setText("");
+        	txtUrlPhoto.setText("");
+        	dpBirth.setValue(null);
+        	cmbxBrowser.setValue(null);
+        	rbOther.setSelected(false);
+        	rbMale.setSelected(false);
+        	rbFemale.setSelected(false);
+        	cbSIS.setSelected(false);
+        	cbTEL.setSelected(false);
+        	cbIND.setSelected(false);
         	Alert alert = new Alert(AlertType.INFORMATION);
     	    alert.setTitle(null);
     	    alert.setHeaderText(null);

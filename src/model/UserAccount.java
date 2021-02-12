@@ -35,6 +35,7 @@ public class UserAccount {
 		}else {
 			this.browser = FavoriteBrowser.SAFARI;
 		}
+		this.careers = new ArrayList<Career>();
 		for(int k=0;k<careers.size();k++){
 			if(careers.get(k).equals("SIS")){
 				this.careers.add(Career.SOFTWARE_ENGINEERING);
