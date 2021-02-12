@@ -18,8 +18,8 @@ public class Classroom {
 		} return find;
 	}
 	
-	public void addNewUserAccount(String name, String password, String urlPhoto, Gender gender, Career career, String birthday, FavoriteBrowser browser) {
-		accounts.add(new UserAccount(name,password,urlPhoto,gender,career,birthday,browser));
+	public void addNewUserAccount(String name, String password, String urlPhoto, String gender, ArrayList<String> careers, String birthday, String browser) {
+		accounts.add(new UserAccount(name,password,urlPhoto,gender,careers,birthday,browser));
 	}
 
 	public ArrayList<UserAccount> getAccounts() {

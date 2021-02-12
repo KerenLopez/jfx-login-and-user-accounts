@@ -1,23 +1,49 @@
 package model;
 
+import java.util.ArrayList;
+
 public class UserAccount {
 	
 	private String name;
 	private String password;
 	private String urlPhoto;
 	private Gender gender;
-	private Career career;
+	private ArrayList<Career> careers;
 	private String birthday;
 	private FavoriteBrowser browser;
 
-	public UserAccount(String name, String password, String urlPhoto, Gender gender, Career career, String birthday,FavoriteBrowser browser) {
+	public UserAccount(String name, String password, String urlPhoto, String gender, ArrayList<String> careers, String birthday, String browser) {
 		this.name = name;
 		this.password = password;
 		this.urlPhoto = urlPhoto;
-		this.gender = gender;
-		this.career = career;
 		this.birthday = birthday;
-		this.browser = browser;
+		if(gender.equals("male")) {
+			this.gender = Gender.MALE;
+		} else if(gender.equals("female")) {
+			this.gender = Gender.FEMALE;
+		}else {
+			this.gender = Gender.OTHER;
+		}
+		if(browser.equals("Chrome")) {
+			this.browser = FavoriteBrowser.CHROME;
+		}else if(browser.equals("Opera")) {
+			this.browser = FavoriteBrowser.OPERA;
+		}else if(browser.equals("Edge")) {
+			this.browser = FavoriteBrowser.EDGE;
+		}else if(browser.equals("Firefox")) {
+			this.browser = FavoriteBrowser.FIREFOX;
+		}else {
+			this.browser = FavoriteBrowser.SAFARI;
+		}
+		for(int k=0;k<careers.size();k++){
+			if(careers.get(k).equals("SIS")){
+				this.careers.add(Career.SOFTWARE_ENGINEERING);
+			}else if(careers.get(k).equals("TEL")) {
+				this.careers.add(Career.TELEMATIC_ENGINEERING);
+			}else {
+				this.careers.add(Career.INDUSTRIAL_ENGINEERING);
+			}
+		} 	
 	}
 
 	public String getName() {
@@ -52,12 +78,12 @@ public class UserAccount {
 		this.gender = gender;
 	}
 
-	public Career getCareer() {
-		return career;
+	public ArrayList<Career> getCareers() {
+		return careers;
 	}
 
-	public void setCareer(Career career) {
-		this.career = career;
+	public void setCareers(ArrayList<Career> careers) {
+		this.careers = careers;
 	}
 
 	public String getBirthday() {

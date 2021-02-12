@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -72,7 +73,7 @@ public class ClassroomGUI {
     private DatePicker dpBirth;
 
     @FXML
-    private ComboBox<FavoriteBrowser> cmbxBrowser;
+    private ComboBox<String> cmbxBrowser;
 
     @FXML
     private PasswordField txtNewUserPassword;
@@ -104,7 +105,7 @@ public class ClassroomGUI {
     public ClassroomGUI(Classroom cr) {
 		classroom = cr;
 	}
-    
+
     public void loadLoginForm() throws IOException {
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
 		fxmlLoader.setController(this);
@@ -112,7 +113,7 @@ public class ClassroomGUI {
 		mainPanel.getChildren().clear();
 		mainPanel.setTop(loginPane);
     }
-
+    
     @FXML
     public void loadUserAccountList(ActionEvent event) throws IOException {
     	if(!txtName.getText().equals("") && !txtPassword.getText().equals("")) {
@@ -137,11 +138,7 @@ public class ClassroomGUI {
         		alert.showAndWait();
         	}
     	}else {
-    		Alert alert = new Alert(AlertType.ERROR);
-    		alert.setTitle("Validation Error");
-    		alert.setHeaderText(null);
-    		alert.setContentText("You must fill each field in the form");
-    		alert.showAndWait();
+    		showValidationErrorAlert();
     	}
     }
 
@@ -163,6 +160,10 @@ public class ClassroomGUI {
 		Parent registerPane = fxmlLoader.load();
 		mainPanel.getChildren().clear();
 		mainPanel.setTop(registerPane);
+		txtNewUserPassword.setPromptText("**********");
+		ObservableList<String> browsersList = FXCollections.observableArrayList("Chrome","Opera","Firefox","Edge","Safari");
+    	cmbxBrowser.setValue("Chrome");
+    	cmbxBrowser.setItems(browsersList);
 	}
 
     @FXML
@@ -172,9 +173,60 @@ public class ClassroomGUI {
 
     @FXML
     public void createAccountButtonAction(ActionEvent event) throws IOException {
-
+    	String strGender = getRadioButtonGenre();
+    	String strBirthday = dpBirth.getValue().toString();
+    	String strBrowser = cmbxBrowser.getValue().toString();
+    	ArrayList<String> careers = getCheckBoxCareer();
+    	boolean find = false;
+		for(int k=0;k<careers.size() && !find;k++){
+			if(careers.get(k).equals("no")){
+				find = true;
+				careers.remove(k);
+			}
+		} 
+    	if(!txtNewUsername.getText().equals("") && !txtNewUserPassword.getText().equals("") && !txtUrlPhoto.getText().equals("") && strGender!="no" && !strBirthday.equals("") && !strBrowser.equals("") && !find) {
+    		String strNewUsername = txtNewUsername.getText();
+    		String strNewUserPassword = txtNewUserPassword.getText();
+        	String strUrlPhoto = txtUrlPhoto.getText();
+        	classroom.addNewUserAccount(strNewUsername, strNewUserPassword, strUrlPhoto, strGender, careers, strBirthday, strBrowser);
+        	Alert alert = new Alert(AlertType.INFORMATION);
+    	    alert.setTitle(null);
+    	    alert.setHeaderText(null);
+    	    alert.setContentText("The user has been created successfully");
+    	    alert.showAndWait();
+    	}else {
+    		showValidationErrorAlert();
+    	}
     }
-
+    
+    public String getRadioButtonGenre() {
+    	String gender = "";
+    	if(rbMale.isSelected()) {
+    		gender = "male";
+    	} else if (rbFemale.isSelected()) {
+    		gender = "female";
+    	}else if (rbOther.isSelected()) {
+    		gender = "other";
+    	} else {
+    		gender = "no";
+    	}
+    	return gender;
+    }
+    
+    public ArrayList<String> getCheckBoxCareer() {
+    	ArrayList<String> careers = new ArrayList<>();
+    	if(cbSIS.isSelected()) {
+    		careers.add("SIS");
+    	}else if(cbTEL.isSelected()) {
+    		careers.add("TEL");
+    	}else if(cbIND.isSelected()){
+    		careers.add("IND");
+    	} else {
+    		careers.add("no");
+    	}
+    	return careers;
+    }
+    
     @FXML
     public void signInButtonAction(ActionEvent event) throws IOException {
     	loadLoginForm();
@@ -182,7 +234,7 @@ public class ClassroomGUI {
     
     @FXML
     public void logOutButtonAction(ActionEvent event) throws IOException {
-
+    	loadLoginForm();
     }
     
     @FXML
@@ -192,5 +244,13 @@ public class ClassroomGUI {
 	    alert.setHeaderText("Credits");
 	    alert.setContentText("Keren López\nAlgorithms II");
 	    alert.showAndWait();
+    }
+    
+    public void showValidationErrorAlert() {
+    	Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Validation Error");
+		alert.setHeaderText(null);
+		alert.setContentText("You must fill each field in the form");
+		alert.showAndWait();
     }
 }
