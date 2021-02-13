@@ -109,7 +109,7 @@
                               <Insets left="125.0" top="30.0" />
                            </GridPane.margin>
                         </Label>
-                        <Button mnemonicParsing="false" onAction="#chooseProfilePhoto" prefHeight="30.0" prefWidth="72.0" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <Button mnemonicParsing="false" onAction="#chooseProfilePhoto" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #e08fc7; -fx-border-color: gray;" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="2">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -229,15 +229,15 @@
                               <Insets top="160.0" />
                            </GridPane.margin>
                         </ComboBox>
-                        <Button mnemonicParsing="false" onAction="#signInButtonAction" text="Sign in" GridPane.rowIndex="7">
+                        <Button mnemonicParsing="false" onAction="#signInButtonAction" style="-fx-background-color: #e08fc7; -fx-border-color: gray;" text="Sign in" GridPane.rowIndex="7">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
                            <GridPane.margin>
-                              <Insets bottom="10.0" left="125.0" top="240.0" />
+                              <Insets bottom="10.0" left="120.0" top="240.0" />
                            </GridPane.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#createAccountButtonAction" text="Create account" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                        <Button mnemonicParsing="false" onAction="#createAccountButtonAction" style="-fx-background-color: #e08fc7; -fx-border-color: gray;" text="Create account" GridPane.columnIndex="1" GridPane.rowIndex="7">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>

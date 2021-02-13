@@ -30,6 +30,7 @@ public class Main extends Application{
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Classroom");
 		primaryStage.show();
+		root.setStyle("-fx-background-image: url(/ui/fondo.jpg)");
 	}
 
 }

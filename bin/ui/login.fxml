@@ -18,8 +18,8 @@
    <center>
       <GridPane prefHeight="153.0" prefWidth="353.0" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="204.0" minWidth="10.0" prefWidth="140.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.0" minWidth="10.0" prefWidth="260.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="204.0" minWidth="10.0" prefWidth="146.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.0" minWidth="10.0" prefWidth="254.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints maxHeight="112.0" minHeight="10.0" prefHeight="112.0" vgrow="SOMETIMES" />
@@ -47,7 +47,7 @@
                   <Insets left="60.0" />
                </padding>
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </Label>
             <Label text="Password:" GridPane.rowIndex="2">
@@ -55,10 +55,10 @@
                   <Insets left="60.0" />
                </padding>
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" onAction="#loadRegistrationForm" text="Sign up" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button mnemonicParsing="false" onAction="#loadRegistrationForm" style="-fx-background-color: #e08fc7; -fx-border-color: gray;" text="Sign up" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets top="20.0" />
                </GridPane.margin>
@@ -66,7 +66,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#loadUserAccountList" text="Login" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button mnemonicParsing="false" onAction="#loadUserAccountList" style="-fx-background-color: #e08fc7; -fx-border-color: gray;" text="Login" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="100.0" top="20.0" />
                </GridPane.margin>

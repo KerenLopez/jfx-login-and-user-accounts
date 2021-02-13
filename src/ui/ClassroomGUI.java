@@ -3,7 +3,6 @@ package ui;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,9 +22,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
-import model.Career;
 import model.Classroom;
 import model.FavoriteBrowser;
 import model.Gender;
@@ -90,7 +90,7 @@ public class ClassroomGUI {
     private TableColumn<UserAccount, Gender> tcGender;
 
     @FXML
-    private TableColumn<UserAccount, Career> tcCareer;
+    private TableColumn<UserAccount, String> tcCareer;
 
     @FXML
     private TableColumn<UserAccount, String> tcBirthday;
@@ -100,9 +100,9 @@ public class ClassroomGUI {
 
     @FXML
     private Label labUsername;
-
+    
     @FXML
-    private Label labIconProfile;
+    private ImageView ivIconProfile;
     
     public ClassroomGUI(Classroom cr) {
 		classroom = cr;
@@ -114,6 +114,7 @@ public class ClassroomGUI {
 		Parent loginPane = fxmlLoader.load();
 		mainPanel.getChildren().clear();
 		mainPanel.setTop(loginPane);
+		mainPanel.setStyle("-fx-background-image: url(/ui/fondo.jpg)");
     }
     
     @FXML
@@ -132,6 +133,10 @@ public class ClassroomGUI {
             	mainPanel.setCenter(userListPane);
             	initializeTableView();
             	labUsername.setText(strUsername);
+            	String urlPhoto = classroom.searchPhotoProfile(strUsername);
+            	File file = new File(urlPhoto);
+            	Image image = new Image(file.toURI().toString());
+            	ivIconProfile.setImage(image);
         	}else {
         		Alert alert = new Alert(AlertType.ERROR);
         		alert.setTitle("Login incorrect");
@@ -148,9 +153,9 @@ public class ClassroomGUI {
     	ObservableList<UserAccount> observableList;
     	observableList = FXCollections.observableArrayList(classroom.getAccounts());
     	tvUserAccountList.setItems(observableList);
-    	tcUserName.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("Username")); 
-		tcGender.setCellValueFactory(new PropertyValueFactory<UserAccount,Gender>("Gender")); 
-		tcCareer.setCellValueFactory(new PropertyValueFactory<UserAccount,Career>("Career"));
+    	tcUserName.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("Name")); 
+		tcGender.setCellValueFactory(new PropertyValueFactory<UserAccount,Gender>("Gender"));
+		tcCareer.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("Career"));
 		tcBirthday.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("Birthday"));
 		tcBrowser.setCellValueFactory(new PropertyValueFactory<UserAccount,FavoriteBrowser>("Browser")); 
 	}
@@ -188,7 +193,6 @@ public class ClassroomGUI {
     @FXML
     public void createAccountButtonAction(ActionEvent event) throws IOException {
     	String strGender = getRadioButtonGenre();
-    	String strBirthday = dpBirth.getValue().toString();
     	String strBrowser = cmbxBrowser.getValue().toString();
     	ArrayList<String> careers = getCheckBoxCareer();
     	boolean find = false;
@@ -198,10 +202,11 @@ public class ClassroomGUI {
 				careers.remove(k);
 			}
 		} 
-    	if(!txtNewUsername.getText().equals("") && !txtNewUserPassword.getText().equals("") && !txtUrlPhoto.getText().equals("") && strGender!="no" && !strBirthday.equals("") && !strBrowser.equals("") && !find) {
+    	if(!txtNewUsername.getText().equals("") && !txtNewUserPassword.getText().equals("") && !txtUrlPhoto.getText().equals("") && strGender!="no" && dpBirth.getValue()!=null && !strBrowser.equals("") && !find) {
     		String strNewUsername = txtNewUsername.getText();
     		String strNewUserPassword = txtNewUserPassword.getText();
         	String strUrlPhoto = txtUrlPhoto.getText();
+        	String strBirthday = dpBirth.getValue().toString();
         	classroom.addNewUserAccount(strNewUsername, strNewUserPassword, strUrlPhoto, strGender, careers, strBirthday, strBrowser);
         	txtNewUsername.setText("");
         	txtNewUserPassword.setText("");
@@ -241,12 +246,15 @@ public class ClassroomGUI {
     public ArrayList<String> getCheckBoxCareer() {
     	ArrayList<String> careers = new ArrayList<>();
     	if(cbSIS.isSelected()) {
-    		careers.add("SIS");
-    	}else if(cbTEL.isSelected()) {
-    		careers.add("TEL");
-    	}else if(cbIND.isSelected()){
-    		careers.add("IND");
-    	} else {
+    		careers.add("Software Engineering");
+    	} 
+    	if(cbTEL.isSelected()) {
+    		careers.add("Telematic Engineering");
+    	}
+    	if(cbIND.isSelected()){
+    		careers.add("Industrial Engineering");
+    	} 
+    	if(!cbSIS.isSelected() && !cbTEL.isSelected() && !cbIND.isSelected()){
     		careers.add("no");
     	}
     	return careers;

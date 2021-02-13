@@ -8,7 +8,7 @@ public class UserAccount {
 	private String password;
 	private String urlPhoto;
 	private Gender gender;
-	private ArrayList<Career> careers;
+	private ArrayList<String> careers;
 	private String birthday;
 	private FavoriteBrowser browser;
 
@@ -35,16 +35,16 @@ public class UserAccount {
 		}else {
 			this.browser = FavoriteBrowser.SAFARI;
 		}
-		this.careers = new ArrayList<Career>();
-		for(int k=0;k<careers.size();k++){
-			if(careers.get(k).equals("SIS")){
-				this.careers.add(Career.SOFTWARE_ENGINEERING);
-			}else if(careers.get(k).equals("TEL")) {
-				this.careers.add(Career.TELEMATIC_ENGINEERING);
-			}else {
-				this.careers.add(Career.INDUSTRIAL_ENGINEERING);
-			}
-		} 	
+		this.careers = new ArrayList<String>();
+		this.careers = careers;
+	}
+	
+	public String getCareer() {
+		String careers = "";
+		for(int k=0; k<getCareers().size();k++) {
+			careers += getCareers().get(k)+"\n";
+		}
+		return careers;
 	}
 
 	public String getName() {
@@ -79,11 +79,11 @@ public class UserAccount {
 		this.gender = gender;
 	}
 
-	public ArrayList<Career> getCareers() {
+	public ArrayList<String> getCareers() {
 		return careers;
 	}
 
-	public void setCareers(ArrayList<Career> careers) {
+	public void setCareers(ArrayList<String> careers) {
 		this.careers = careers;
 	}
 
@@ -102,5 +102,4 @@ public class UserAccount {
 	public void setBrowser(FavoriteBrowser browser) {
 		this.browser = browser;
 	}
-
 }
